@@ -15,3 +15,25 @@ def add_expenses(conn,cur):
         print("Expense added successfully!")
     except Exception as e:
         print("An error occured while adding data: ",e)
+    
+def view_expenses(cur):
+    try:
+        cur.execute("SELECT * FROM EXPENSES")
+        rows=cur.fetchall()
+
+        if not rows:
+            print("No Data found.")
+            return
+        
+        else:
+            print("\n-----ALL EXPENSES LIST-----")
+            for i in rows:
+                print("ID: ",i[0])
+                print("Cost: Rs. ",i[1])
+                print("Category: ",i[2])
+                print("Note: ",i[3])
+                print("Date of Expenditure: ",i[4])
+                print("-------------------------------------\n")
+
+    except Exception as e:
+        print("An error occured while displaying the data: ",e)
