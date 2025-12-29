@@ -3,13 +3,13 @@ from datetime import datetime
 
 def add_expenses(conn,cur):
     try:
-        c=int(input("Enter the Cost:"))
+        c=int(input("\nEnter the Cost:"))
         cat=input("Enter Category: ")
         note=input("Enter a note: ")
         dt=input("Enter the date of expenditure (dd/mm/yyyy): ")
         datetime.strptime(dt,"%d/%m/%Y")
         
-        cur.execute("""INSERT INTO EXPENSES(Cost,Description,Note,Expense_Date) 
+        cur.execute("""INSERT INTO EXPENSES(Cost,Category,Note,Expense_Date) 
                     VALUES(:1,:2,:3,TO_DATE(:4, 'DD/MM/YYYY'))""",(c,cat,note,dt))
         conn.commit()
         print("\nExpense added successfully!\n")
@@ -40,7 +40,7 @@ def view_expenses(cur):
 
 def update_expenses(conn,cur):
     try:
-        n_id=int(input("Enter the expense ID to update: "))
+        n_id=int(input("\nEnter the expense ID to update: "))
         cur.execute("SELECT id FROM EXPENSES WHERE id = :1", (n_id,))
         if cur.fetchone() is None:
             print("\nNo expense found with that ID.\n")
@@ -72,7 +72,7 @@ def update_expenses(conn,cur):
 
 def delete_expenses(conn,cur):
     try:
-        n_id=int(input("Enter the expense ID to delete: "))
+        n_id=int(input("\nEnter the expense ID to delete: "))
         cur.execute("SELECT id FROM EXPENSES WHERE id = :1", (n_id,))
         if cur.fetchone() is None:
             print("\nNo expense found with that ID.\n")
@@ -86,7 +86,7 @@ def delete_expenses(conn,cur):
 
 def summary_expenses(cur):
     try:
-        m=int(input("Enter a month to view the summary (1/2/.../11/12): "))
+        m=int(input("\nEnter a month to view the summary (1/2/.../11/12): "))
         cur.execute("SELECT * FROM EXPENSES WHERE EXTRACT(MONTH FROM EXPENSE_DATE)=:1",(m,))
         rows=cur.fetchall()
         if not rows:
