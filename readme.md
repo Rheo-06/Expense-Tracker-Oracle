@@ -38,76 +38,36 @@ CREATE TABLE expenses (
     expense_date DATE
 );
 
-⚙️ Setup Instructions
-1️⃣ Prerequisites
+---
 
-Oracle Database running locally
+## ⚙️ Setup Instructions
 
-Python 3.x installed
+Follow the steps below to run the Expense Tracker System on your local machine.
 
-oracledb module installed
+---
 
+### 1️⃣ Prerequisites
+
+Ensure you have the following installed:
+- Python 3.x  
+- Oracle Database (XE / Local instance running)  
+- Oracle SQL Developer (optional, for database management)  
+
+Install the Oracle DB Python driver:
+
+```bash
 pip install oracledb
 
-2️⃣ Update Database Credentials
+---
 
-Edit the connection section in the Python file:
+## 5️⃣ Use the Menu
 
-conn = db.connect(
-    user="your_username",
-    password="your_password",
-    dsn="localhost:1521/XEPDB1"
-)
+You will be presented with a menu-driven interface to:
 
-3️⃣ Run the Program
-python expense_tracker.py
+Add expenses
+View expenses
+Update expenses
+Delete expenses
+View monthly summaries
 
-📋 Menu Options
-1. Add an expense
-2. View all expenses
-3. Update an expense
-4. Delete an expense
-5. Monthly expense summary
-6. Exit
-
-📊 Monthly Summary Logic
-
-Uses Oracle’s EXTRACT(MONTH FROM DATE) for accurate filtering:
-
-SELECT *
-FROM expenses
-WHERE EXTRACT(MONTH FROM expense_date) = :month;
-
-
-Total expenditure is calculated in Python.
-
-🧠 Concepts Demonstrated
-
-Python functions & exception handling
-
-Oracle DB connectivity
-
-Parameterized SQL queries (SQL Injection safe)
-
-DATE validation & conversion
-
-Transaction management (commit)
-
-Resource handling (cursor.close(), conn.close())
-
-🔮 Possible Enhancements
-
-Year-wise expense summary
-
-Category-wise analytics
-
-User authentication
-
-Flask-based web version
-
-Frontend UI
-
-👨‍💻 Author
-
-Rohit R
-B.Sc Computer Science (Data Analytics) Student
+---
