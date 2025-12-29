@@ -83,3 +83,27 @@ def delete_expenses(conn,cur):
         print("Expense Deleted Successfully!")
     except Exception as e:
         print("An error occurred while deletion: ",e)
+
+def summary_expenses(cur):
+    try:
+        m=int(input("Enter a month to view the summary (1/2/.../11/12): "))
+        cur.execute("SELECT * FROM EXPENSES WHERE EXTRACT(MONTH FROM EXPENSE_DATE)=:1",(m,))
+        rows=cur.fetchall()
+        if not rows:
+            print("No Data found.")
+            return 
+        
+        print("\n-------EXPENSE SUMMARY-------\n")
+        t=0
+        for i in rows:
+            print("ID: ",i[0])
+            print("Cost: Rs. ",i[1])
+            print("Category: ",i[2])
+            print("Note: ",i[3])
+            print("Date of Expenditure: ",i[4])
+            t+=i[1]
+        print("Total Expenditude for the month = Rs. ",t)
+        print("-------------------------------------\n")
+
+    except Exception as e:
+        print("An eroor occurred while loading the summary: ",e)
