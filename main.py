@@ -14,7 +14,7 @@ def add_expenses(conn,cur):
         conn.commit()
         print("Expense added successfully!")
     except Exception as e:
-        print("An error occured while adding data: ",e)
+        print("An error occurred while adding data: ",e)
     
 def view_expenses(cur):
     try:
@@ -36,4 +36,36 @@ def view_expenses(cur):
                 print("-------------------------------------\n")
 
     except Exception as e:
-        print("An error occured while displaying the data: ",e)
+        print("An error occurred while displaying the data: ",e)
+
+def update_expenses(conn,cur):
+    try:
+        n_id=int(input("Enter the expense ID to update: "))
+        cur.execute("SELECT id FROM expenses WHERE id = :1", (n_id,))
+        if cur.fetchone() is None:
+            print("No expense found with that ID.")
+            return
+        
+        u_type=input("What would you like to update? (Cost/Category/Note/Date): ").lower()
+        if u_type=='cost':
+            c=float(input("Enter new cost: "))
+            cur.execute("""UPDATE EXPENSES SET COST=:1 WHERE ID=:2""",(c,n_id))
+        elif u_type=='category':
+            cat=input("Enter new Category: ")
+            cur.execute("""UPDATE EXPENSES SET CATEGORY=:1 WHERE ID=:2""",(cat,n_id))
+        elif u_type=='note':
+            n=input("Enter new note: ")
+            cur.execute("""UPDATE EXPENSES SET NOTE=:1 WHERE ID=:2""",(n,n_id))
+        elif u_type=='date':
+            d=input("Enter new Date (dd/mm/yyyy): ")
+            datetime.strptime(d,'%d/%m/%Y')
+            cur.execute("""UPDATE EXPENSES SET EXPENSE_DATE= TO_DATE(:1,'DD/MM/YYYY')
+                            WHERE ID=:2""",(d,n_id))
+        else:
+            print("Invalid Update option.")
+
+        conn.commit()
+        print("Expense Updated Successfully!")
+
+    except Exception as e:
+        print("An error occurred wile updating: ",e)
