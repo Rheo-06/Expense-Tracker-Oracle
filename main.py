@@ -107,3 +107,52 @@ def summary_expenses(cur):
 
     except Exception as e:
         print("An eroor occurred while loading the summary: ",e)
+
+try:
+    conn=db.connect(user='rohit',password='rohit123',dsn='localhost:1521/XEPDB1')
+    print("Connection Established Successfully!\n")
+    cur=conn.cursor()
+
+    while True:
+        print('\n--------WELCOME TO EXPENSE TRACKER SYSTEM--------\n')
+        print("Enter 1 for adding an expense.")
+        print("Enter 2 for viewing all expenses.")
+        print("Enter 3 for updating an expense.")
+        print("Enter 4 for deleting an expense.")
+        print("Enter 5 to view a detailed monthly summary of expenditure.")
+        print("Enter 6 to exit the program.")
+        c=int(input("Enter your choice: "))
+
+        if c==1:
+            add_expenses(conn,cur)
+
+        elif c==2:
+            view_expenses(cur)
+
+        elif c==3:
+            update_expenses(conn,cur)
+
+        elif c==4:
+            delete_expenses(conn,cur)
+
+        elif c==5:
+            summary_expenses(cur)
+
+        elif c==6:
+            print("\nExiting the program....")
+            break
+
+        else:
+            print("Invalid chocie, try again!")
+
+except db.DatabaseError as de:
+    print("Couldn't establish connection: ",de)
+except Exception as e:
+    print("An error occured: ",e)
+finally:
+    try:
+        cur.close()
+        conn.close()
+        print("Database connection closed.")
+    except:
+        pass
