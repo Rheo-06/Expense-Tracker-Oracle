@@ -12,7 +12,7 @@ def add_expenses(conn,cur):
         cur.execute("""INSERT INTO EXPENSES(Cost,Description,Note,Expense_Date) 
                     VALUES(:1,:2,:3,TO_DATE(:4, 'DD/MM/YYYY'))""",(c,cat,note,dt))
         conn.commit()
-        print("\nExpense added successfully!")
+        print("\nExpense added successfully!\n")
     except Exception as e:
         print("\nAn error occurred while adding data: ",e)
     
@@ -22,11 +22,11 @@ def view_expenses(cur):
         rows=cur.fetchall()
 
         if not rows:
-            print("\nNo Data found.")
+            print("\nNo Data found.\n")
             return
         
         else:
-            print("\n-----ALL EXPENSES LIST-----")
+            print("\n-----ALL EXPENSES LIST-----\n")
             for i in rows:
                 print("ID: ",i[0])
                 print("Cost: Rs. ",i[1])
@@ -43,7 +43,7 @@ def update_expenses(conn,cur):
         n_id=int(input("Enter the expense ID to update: "))
         cur.execute("SELECT id FROM EXPENSES WHERE id = :1", (n_id,))
         if cur.fetchone() is None:
-            print("\nNo expense found with that ID.")
+            print("\nNo expense found with that ID.\n")
             return
         
         u_type=input("What would you like to update? (Cost/Category/Note/Date): ").lower()
@@ -62,10 +62,10 @@ def update_expenses(conn,cur):
             cur.execute("""UPDATE EXPENSES SET EXPENSE_DATE= TO_DATE(:1,'DD/MM/YYYY')
                             WHERE ID=:2""",(d,n_id))
         else:
-            print("\nInvalid Update option.")
+            print("\nInvalid Update option.\n")
 
         conn.commit()
-        print("\nExpense Updated Successfully!")
+        print("\nExpense Updated Successfully!\n")
 
     except Exception as e:
         print("\nAn error occurred wile updating: ",e)
@@ -75,12 +75,12 @@ def delete_expenses(conn,cur):
         n_id=int(input("Enter the expense ID to delete: "))
         cur.execute("SELECT id FROM EXPENSES WHERE id = :1", (n_id,))
         if cur.fetchone() is None:
-            print("\nNo expense found with that ID.")
+            print("\nNo expense found with that ID.\n")
             return
         
         cur.execute("DELETE FROM EXPENSES WHERE ID=:1",(n_id,))
         conn.commit()
-        print("\nExpense Deleted Successfully!")
+        print("\nExpense Deleted Successfully!\n")
     except Exception as e:
         print("\nAn error occurred while deletion: ",e)
 
@@ -90,7 +90,7 @@ def summary_expenses(cur):
         cur.execute("SELECT * FROM EXPENSES WHERE EXTRACT(MONTH FROM EXPENSE_DATE)=:1",(m,))
         rows=cur.fetchall()
         if not rows:
-            print("\nNo Data found.")
+            print("\nNo Data found.\n")
             return 
         
         print("\n-------EXPENSE SUMMARY-------\n")
@@ -110,7 +110,7 @@ def summary_expenses(cur):
 
 try:
     conn=db.connect(user='rohit',password='rohit123',dsn='localhost:1521/XEPDB1')
-    print("Connection Established Successfully!\n")
+    print("\nConnection Established Successfully!\n")
     cur=conn.cursor()
 
     print('\n--------WELCOME TO EXPENSE TRACKER SYSTEM--------\n')
@@ -139,16 +139,16 @@ try:
             summary_expenses(cur)
 
         elif c==6:
-            print("\nExiting the program....")
+            print("\nExiting the program...\n.")
             break
 
         else:
-            print("Invalid chocie, try again!")
+            print("\nInvalid chocie, try again!\n")
 
 except db.DatabaseError as de:
-    print("Couldn't establish connection: ",de)
+    print("\nCouldn't establish connection: ",de)
 except Exception as e:
-    print("An error occured: ",e)
+    print("\nAn error occured: ",e)
 finally:
     try:
         cur.close()
