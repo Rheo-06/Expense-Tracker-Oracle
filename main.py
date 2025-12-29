@@ -41,7 +41,7 @@ def view_expenses(cur):
 def update_expenses(conn,cur):
     try:
         n_id=int(input("Enter the expense ID to update: "))
-        cur.execute("SELECT id FROM expenses WHERE id = :1", (n_id,))
+        cur.execute("SELECT id FROM EXPENSES WHERE id = :1", (n_id,))
         if cur.fetchone() is None:
             print("No expense found with that ID.")
             return
@@ -69,3 +69,17 @@ def update_expenses(conn,cur):
 
     except Exception as e:
         print("An error occurred wile updating: ",e)
+
+def delete_expenses(conn,cur):
+    try:
+        n_id=int(input("Enter the expense ID to delete: "))
+        cur.execute("SELECT id FROM EXPENSES WHERE id = :1", (n_id,))
+        if cur.fetchone() is None:
+            print("No expense found with that ID.")
+            return
+        
+        cur.execute("DELETE FROM EXPENSES WHERE ID=:1",(n_id,))
+        conn.commit()
+        print("Expense Deleted Successfully!")
+    except Exception as e:
+        print("An error occurred while deletion: ",e)
